@@ -21,10 +21,17 @@ app.use(express.json())
 //Maneira 2, mas prática, pois não exige que seja referenciada função por função
 //A operação é armazenada em uma function customExpress() retornando o app
 customExpress = () =>{
+
+    //A ordem de inserção no consign() importa, pois primeiramente são inclusos os públicos
+    //depois a regra de middleware é aplicada
+    //e todos os diretórios a partir dele devem seguir essa regra na autenticação
     consign()
-        .include('controllers')
-        .include('model')
+        .include('controllers/public')
+        .then('middlewares')
+        .then('controllers')
+        .then('models')
         .into(app)
+
     return app
 }
 
