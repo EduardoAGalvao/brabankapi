@@ -1,5 +1,5 @@
 //Importando as configurações do express criadas pelo desenvolvedor
-const app = require('./config/custom-express')
+const app = require('./src/server')
 
 //Listener para evento de inserção no servidor
 app.listen(3000, () => {

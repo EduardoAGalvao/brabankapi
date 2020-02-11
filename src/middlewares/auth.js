@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken')
 const auth = require('../config/auth')
 
-module.exports = (app) => {
-    app.use(mid)
-}
+// module.exports = (app) => {
+//     app.use(mid)
+//o mid usado acima era uma const que possuia toda a função async abaixo
+// }
 
-const mid = async (req,res,next) => {
+module.exports = async (req,res,next) => {
     const authHeader = req.headers.authorization
 
     //Verifica se tem authorization no Header

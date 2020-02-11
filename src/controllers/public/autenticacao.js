@@ -3,12 +3,75 @@ const ValidacoesUsuarios = require('../../validators/ValidacoesUsuarios')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const auth = require('../../config/auth')
+const usuarioDao = new (require('../../model/Usuarios'))()
 
 //Criação de função genérica para gerar token
 const gerarToken = (params) => jwt.sign(params, auth.secret, {expiresIn: 60})
 
+module.exports = {
+    async registrar(req,res){
+        const erros = validationResult(req)
+
+        if(!erros.isEmpty()){
+            return res.status(400).send(erros)
+        }
+
+        let usuario = req.body
+
+        try{
+            const hash = await bcrypt.hash(usuario.senha, 10)
+            usuario.senha = hash
+            const resultado = await usuarioDao.inserir(usuario)
+            usuario = {id: resultado.insertId, ...usuario}
+
+            res.status(201).send({
+                usuario,
+                token: gerarToken({id: usuario.id})
+            })
+        }catch(erro){
+            console.log(erro)
+            res.status(500).send(erro)
+        }
+
+    },
+
+    async autenticar(req,res){
+        const {email, senha} = req.body
+
+        try{
+            let usuario = await usuarioDao.buscarPorEmail(email)
+
+            usuario = usuario[0]
+
+            if(!usuario){
+                return res.status(401).send({erro: 'Usuário e/ou senha inválidos'})
+            }
+
+            if(! await  bcrypt.compare(senha, usuario.senha)){
+                return res.status(401).send({erro: 'Usuário e/ou senha inválidos'})
+            }
+
+            delete usuario.senha
+
+            res.send(
+                {
+                    usuario, 
+                    token: gerarToken({id: usuario.id})
+                }
+            )
+        }catch(erro){
+            console.log(erro)
+            res.status(500).send({erro: "Erro ao autenticar"})
+        }
+        
+    }
+}
+
 const autenticacao = (app) => {
 
+    //Modo antigo
+    //Refatorado em 11/02
+    /*
     app.post('/registrar', ValidacoesUsuarios.validacoes(), (req,res) => {
         let usuario = req.body;
         //Aplica validações descritas
@@ -45,7 +108,7 @@ const autenticacao = (app) => {
             })
         })
 
-    })
+    })*/
 
     //********PRIMEIRA MANEIRA - SEM MÉTODOS ASSÍNCRONOS, UTILIZANDO .then()
     // app.post('/autenticar', (req, res) => {
@@ -76,6 +139,8 @@ const autenticacao = (app) => {
     // })
 
     //********SEGUNDA MANEIRA - UTILIZANDO ASYNC/AWAIT
+    //Refatorado em 11/02
+    /*
     app.post('/autenticar', async (req, res) => {
         const {email, senha} = req.body
         usuarioDao = app.model.Usuarios
@@ -97,9 +162,10 @@ const autenticacao = (app) => {
                 token: gerarToken({id: usuario.id})
             }
         )
-    })
+    })*/
 
 
 }
 
-module.exports = autenticacao
+//Refatorado em 11/02
+//module.exports = autenticacao
