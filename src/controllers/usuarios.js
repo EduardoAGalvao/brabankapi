@@ -1,5 +1,7 @@
+//Obtendo bibliotecas de validação e tratamento de erros
 const {validationResult} = require('express-validator')
 const ValidacoesUsuarios = require('../validators/ValidacoesUsuarios')
+
 //Abaixo está sendo importada a classe Usuario e já instanciando
 const usuarioDao = new (require('../model/Usuarios'))()
 
@@ -20,6 +22,7 @@ module.exports = {
         }
     },
 
+    //Método para inserção de usuário
     async inserir(req,res){
         
         const erros = validationResult(req)
@@ -43,6 +46,7 @@ module.exports = {
 
 }
 
+//Refatorado em 11/02, agora exportando os métodos ao invés da função
 const usuarios = (app) => {
 
     //Mapeamento de comandos para a requisição no diretório /usuarios
@@ -117,4 +121,4 @@ const usuarios = (app) => {
 }
 
 //Exportando a função que possui as rotas
-module.exports = usuarios
+//module.exports = usuarios

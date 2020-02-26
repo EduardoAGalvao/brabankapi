@@ -1,5 +1,10 @@
+//Obtendo a biblioteca express
 const express = require('express')
+
+//O consign é uma biblioteca que gerencia as rotas
 const consign = require('consign')
+
+//Agora não mais utilizado, o bodyParser fazia o express conseguir ler o JSON
 //const bodyParser = require('body-parser')
 
 //Invocação do express()

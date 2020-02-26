@@ -1,4 +1,10 @@
+//Ferramentas do express-validator
+//O express-validator é um conjunto de middlewares do Express.js 
+//que encapsula funções do validator e do sanitizer do validator.js
+//utiliza check para parâmetros que fazem parte do objeto avaliado
+//e body para a construção de validação customizada
 const {check, body} = require('express-validator')
+
 const usuarioDao = new (require('../model/Usuarios'))()
 
 class ValidacoesUsuarios{

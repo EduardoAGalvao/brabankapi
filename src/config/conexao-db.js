@@ -1,3 +1,4 @@
+//Obtendo o pacote do mysql
 const mysql = require('mysql')
 
 //createConnection() espera um JSON com as configurações
@@ -9,4 +10,5 @@ const conexao = mysql.createConnection({
     database: 'brabank'
 })
 
+//Exportando a conexão criada
 module.exports = conexao

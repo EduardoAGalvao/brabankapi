@@ -1,8 +1,14 @@
+//Realizando instância do objeto Categorias
 const categoriaDao = new (require('../model/Categorias'))()
+
+//Obtendo o validadionResult do express-validator
+//ele intercepta os erros de uma requisição, retornando seus parâmetros, 
+//como a mensagem de erro, parâmetro, locais, valores, entre outros
 const {validationResult} = require('express-validator')
 
 module.exports = {
 
+    //Listando as categorias
     async listar(req,res) {
         try{
             const categorias = await categoriaDao.listar()
@@ -16,6 +22,7 @@ module.exports = {
         }
     },
 
+    //Inserindo uma nova categoria
     async inserir(req,res){
 
         const erros = validationResult(req)
