@@ -18,6 +18,11 @@ const usuario = require('./routers/usuarioRoutes')
 //validando as informações e interceptando requisições
 const authMid = require('./middlewares/auth')
 
+//Importando e utilizando biblioteca cors
+//ela torna o servidor cross-origin, ampliando seu nível de acesso
+const cors = require('cors')
+app.use(cors())
+
 //Fazendo o express aceitar JSON
 app.use(express.json())
 
