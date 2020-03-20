@@ -13,6 +13,9 @@ const categoria = require('./routers/categoriaRoutes')
 //Define os métodos a serem chamados a partir das requisições em relação aos usuários
 const usuario = require('./routers/usuarioRoutes')
 
+//Define os métodos a serem chamados a partir das requisições em relação aos lançamentos
+const lancamento = require('./routers/lancamentoRoutes')
+
 //Obtém a lógica de middleware, que inclui a validação do Token
 //O Middleware é uma barreira entre a entrada de dados e o acesso à aplicação
 //validando as informações e interceptando requisições
@@ -40,6 +43,9 @@ app.use('/categorias', categoria)
 
 //Incluindo a rota de usuarios para acesso às suas rotas
 app.use('/usuarios', usuario)
+
+//Incluindo a rota de lançamentos para acesso às suas rotas
+app.use('/lancamentos', lancamento)
 
 //Exportando objeto express com todos os dados representados
 module.exports = app
